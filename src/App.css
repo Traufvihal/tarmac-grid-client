@@ -4,29 +4,59 @@
 
 @import "../node_modules/foundation-sites/dist/css/foundation.css";
 
-
-/*
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.employee-image {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
+.employee-container .employee-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background: rgba(149, 136, 192, 0.6);
+}
+
+.employee-container:hover .employee-overlay {
+  opacity: 1;
+}
+
+.employee-container {
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease 0s;
+}
+
+.employee-text-block {
+  text-align: left;
+  position: absolute;
+  bottom: 5%;
+  left: 30%;
+}
+
+.employee-text {
   color: white;
+  font-size: 0.8em;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  display: block;
 }
 
-.App-title {
-  font-size: 1.5em;
+.employee-text .role {
+  font-weight: bold;
 }
 
-.App-intro {
-  font-size: large;
+.tarmac__pagination {
+  margin: 2em 0em;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}*/
+.size-selector-container {
+  margin: 2em 0em;
+}

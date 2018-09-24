@@ -17,11 +17,14 @@ class App extends Component {
       shouldUpdate: true
     };
     this.changePageNumber = this.changePageNumber.bind(this);
+    this.changePageSize = this.changePageSize.bind(this);
   }
 
   changePageNumber(pageNumber) {
     this.setState(() => ({pageNumber: pageNumber, shouldUpdate: true}));
-    // console.log("[changePageNumber]this.state", this.state);
+  }
+  changePageSize(pageSize) {
+    this.setState(() => ({pageSize: pageSize, shouldUpdate: true}));
   }
 
   componentDidMount() {
@@ -60,20 +63,9 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log("[componentDidUpdate] this.state", this.state);
-    // console.log("[componentDidUpdate] prevProps", prevProps);
-    // console.log("[componentDidUpdate] prevState", prevState);
-
     if (prevState.pageNumber !== this.state.pageNumber) {
       this.getData(this.componentDidUpdate.name);
     }
-    // this.setState({shouldUpdate: true});
-
-    // this.getData(this.componentDidUpdate.name);
-    // if (this.state.shouldUpdate) this.getData(this.componentDidUpdate.name);
-    // Doing the call here makes the app enter in a loop I cannot avoid, there
-    // fore cannot continue with the idea of calling the service once the page is
-    // updated from the EmployeeGrid component
   }
 
   render() {
