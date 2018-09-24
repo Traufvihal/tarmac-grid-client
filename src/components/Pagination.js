@@ -12,13 +12,11 @@ export default class Pagination extends React.Component{
 		if (this.hasNext()) {
 			this.props.changePageNumber(this.props.pageNumber + 1);
 		}
-    console.log("NEXT PAGE CLICKED")
   }
 	prevPage(e) {
 		if (this.hasPrev()) {
 			this.props.changePageNumber(this.props.pageNumber - 1);
 		}
-    console.log("PREV PAGE CLICKED")
   }
 
 	hasNext(){

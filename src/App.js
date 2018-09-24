@@ -11,13 +11,16 @@ class App extends Component {
     this.state = {
       pageNumber: 0,
       size: 12,
-      sort: null,
+      role: '',
+      sort: '',
       employeeList: [],
       isLoading: true,
       shouldUpdate: true
     };
     this.changePageNumber = this.changePageNumber.bind(this);
     this.changePageSize = this.changePageSize.bind(this);
+    this.filterByRole = this.filterByRole.bind(this);
+
   }
 
   changePageNumber(pageNumber) {
@@ -25,6 +28,10 @@ class App extends Component {
   }
   changePageSize(pageSize) {
     this.setState(() => ({size: pageSize, shouldUpdate: true}));
+  }
+
+  filterByRole(role) {
+    this.setState(() => ({role: role, shouldUpdate: true}));
   }
 
   componentDidMount() {
@@ -39,12 +46,19 @@ class App extends Component {
     const URL_ROOT = "http://localhost:8080/api/employees/";
     var urlToCall = URL_ROOT;
 
-    if (this.state.pageNumber !== undefined && this.state.pageNumber !== null) {
-      urlToCall += `?page=${this.state.pageNumber}`;
-    }
-    if (this.state.size !== undefined && this.state.size !== null && this.state.size > 0) {
+    if (this.state.role !== undefined && this.state.role !== null && this.state.role !== '') {
+      urlToCall = URL_ROOT + `search/findByRoleContainingIgnoreCase?role=${this.state.role}`;
+      urlToCall += `&page=${this.state.pageNumber}`;
       urlToCall += `&size=${this.state.size}`;
+    } else {
+      if (this.state.pageNumber !== undefined && this.state.pageNumber !== null) {
+        urlToCall += `?page=${this.state.pageNumber}`;
+      }
+      if (this.state.size !== undefined && this.state.size !== null && this.state.size > 0) {
+        urlToCall += `&size=${this.state.size}`;
+      }
     }
+
     console.log("[ getData ] urlToCall", urlToCall);
     fetch(urlToCall).then(res => res.json()).then(json => {
       this.setState({
@@ -55,25 +69,22 @@ class App extends Component {
         isLoading: false,
         shouldUpdate: false
       });
+      console.log(json);
     });
-    console.log("["+ methodName +" -> getData]this.state", this.state);
-    this.state.employeeList.forEach(function(element) {
-      console.log(element);
-    });
+    console.log("[AFTER REST CALL]this.state", this.state);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("prevState.size !== this.state.size", prevState.size !== this.state.size);
     if (
       (prevState.pageNumber !== this.state.pageNumber) ||
-      (prevState.size !== this.state.size)
+      (prevState.size !== this.state.size) ||
+      (prevState.role !== this.state.role)
       ) {
       this.getData(this.componentDidUpdate.name);
     }
   }
 
   render() {
-    console.log("[render]this.state", this.state);
     if (this.state.isLoading) {
       return (<div className="App">
         <h2>Loading...</h2>
@@ -83,6 +94,7 @@ class App extends Component {
       <EmployeeGrid
         changePageNumber={this.changePageNumber.bind(this)}
         changePageSize={this.changePageSize.bind(this)}
+        filterByRole={this.filterByRole.bind(this)}
         employeeList={this.state.employeeList}
         pageNumber={this.state.pageNumber}
         totalPages={this.state.totalPages}
