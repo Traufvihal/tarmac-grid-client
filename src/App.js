@@ -24,7 +24,7 @@ class App extends Component {
     this.setState(() => ({pageNumber: pageNumber, shouldUpdate: true}));
   }
   changePageSize(pageSize) {
-    this.setState(() => ({pageSize: pageSize, shouldUpdate: true}));
+    this.setState(() => ({size: pageSize, shouldUpdate: true}));
   }
 
   componentDidMount() {
@@ -63,7 +63,11 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.pageNumber !== this.state.pageNumber) {
+    console.log("prevState.size !== this.state.size", prevState.size !== this.state.size);
+    if (
+      (prevState.pageNumber !== this.state.pageNumber) ||
+      (prevState.size !== this.state.size)
+      ) {
       this.getData(this.componentDidUpdate.name);
     }
   }
@@ -78,9 +82,11 @@ class App extends Component {
     return (<div className="App">
       <EmployeeGrid
         changePageNumber={this.changePageNumber.bind(this)}
+        changePageSize={this.changePageSize.bind(this)}
         employeeList={this.state.employeeList}
         pageNumber={this.state.pageNumber}
         totalPages={this.state.totalPages}
+        size={this.state.size}
       />
     </div>);
   }
